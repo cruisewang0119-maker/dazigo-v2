@@ -87,8 +87,8 @@ export default function BottomNav({
 
   return (
     <>
-      <nav className="relative bg-card border-t border-border px-1 pt-1 pb-safe overflow-visible">
-        <div className="flex items-end h-[3.75rem]">
+      <nav className="relative bg-card border-t border-border px-1 pb-safe overflow-visible">
+        <div className="flex h-16 items-end">
           <div className="flex flex-1 justify-around min-w-0">
             {leftTabs.map((tab) => (
               <TabButton
@@ -101,14 +101,14 @@ export default function BottomNav({
             ))}
           </div>
 
-          {/* 中间发布：80% 尺寸，上浮，标签浅棕 */}
-          <div className="flex flex-col items-center justify-end w-[4.5rem] shrink-0 -mt-2.5 pb-0.5">
+          {/* 中间：圆形按钮上浮，「发布」与两侧标签同一行 */}
+          <div className="relative w-[4.5rem] shrink-0 h-full">
             <button
               type="button"
               onClick={() => setShowPublishPanel(true)}
               aria-label="打开发布选项"
               aria-expanded={showPublishPanel}
-              className="flex flex-col items-center active:scale-95 transition-transform duration-150"
+              className="absolute left-1/2 top-0 z-10 -translate-x-1/2 -translate-y-1/2 active:scale-95 transition-transform duration-150"
             >
               <span
                 className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-white text-white shadow-[0_4px_16px_rgba(255,107,107,0.42)]"
@@ -118,10 +118,12 @@ export default function BottomNav({
               >
                 <Plus className="w-6 h-6 stroke-[2.5]" />
               </span>
-              <span className="text-[11px] font-medium text-[#A68B6B] -mt-2.5 leading-none">
+            </button>
+            <div className="flex h-full items-end justify-center pb-2">
+              <span className="text-[11px] font-medium text-[#A68B6B] leading-none pointer-events-none">
                 发布
               </span>
-            </button>
+            </div>
           </div>
 
           <div className="flex flex-1 justify-around min-w-0">
