@@ -212,13 +212,13 @@ export default function Home() {
             />
           </PageTransition>
         )}
-
-        <FloatingPublishButton
-          visible={showFloatingPublish}
-          onPublishTrip={handleOpenPublish}
-          onFindBuddy={handleFindBuddy}
-        />
       </main>
+
+      <FloatingPublishButton
+        visible={showFloatingPublish}
+        onPublishTrip={handleOpenPublish}
+        onFindBuddy={handleFindBuddy}
+      />
     </div>
   )
 }

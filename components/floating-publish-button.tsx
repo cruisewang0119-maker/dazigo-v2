@@ -43,7 +43,8 @@ export default function FloatingPublishButton({
 
   return (
     <>
-      <div className="absolute top-[30%] right-4 z-40 flex flex-col items-center gap-1.5">
+      <div className="fixed top-7 right-7 z-50 flex flex-col items-center gap-1.5 pointer-events-none">
+        <div className="pointer-events-auto">
         <button
           type="button"
           onClick={() => setShowPublishPanel(true)}
@@ -61,6 +62,7 @@ export default function FloatingPublishButton({
           </span>
           <span className="text-[11px] font-medium text-[#A68B6B] leading-none">发布</span>
         </button>
+        </div>
       </div>
 
       {showPublishPanel && (
