@@ -85,6 +85,10 @@ export default function Home() {
     navigate({ overlay: 'publish' })
   }, [navigate])
 
+  const handleFindBuddy = useCallback(() => {
+    navigate({ tab: 'discover', overlay: 'none', activity: null, chatUser: null })
+  }, [navigate])
+
   const handleOpenMatch = useCallback(
     (from: 'activityDetail' | 'publish') => {
       navigate({ overlay: 'matchResults', matchReturnTo: from })
@@ -250,7 +254,8 @@ export default function Home() {
         <BottomNav
           activeTab={activeTab}
           onTabChange={handleTabChange}
-          onPublish={handleOpenPublish}
+          onPublishTrip={handleOpenPublish}
+          onFindBuddy={handleFindBuddy}
         />
       )}
     </div>
