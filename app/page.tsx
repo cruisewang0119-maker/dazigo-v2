@@ -1,20 +1,16 @@
 'use client'
 
 import { useState, useCallback } from 'react'
-import BottomNav from '@/components/bottom-nav'
 import DiscoverPage from '@/components/discover-page'
-import ExplorePage from '@/components/explore-page'
-import RoutePage from '@/components/route-page'
-import ProfilePage from '@/components/profile-page'
 import PublishPage from '@/components/publish-page'
 import MatchResultsPage, { type MatchedUser } from '@/components/match-results-page'
 import ChatPage from '@/components/chat-page'
 import ActivityDetailPage from '@/components/activity-detail-page'
+import FloatingPublishButton from '@/components/floating-publish-button'
 import PageTransition from '@/components/page-transition'
 import { type Activity } from '@/lib/mock-data'
 import type { PublishedActivityContext } from '@/lib/match-reasons'
 
-type TabId = 'discover' | 'explore' | 'route' | 'profile'
 type OverlayPage = 'none' | 'activityDetail' | 'publish' | 'matchResults' | 'chat'
 
 function activityToMatchedUser(activity: Activity): MatchedUser {
@@ -37,7 +33,6 @@ function activityInfoLabel(activity: Activity) {
 }
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<TabId>('discover')
   const [overlayPage, setOverlayPage] = useState<OverlayPage>('none')
   const [pageKey, setPageKey] = useState(0)
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null)
@@ -51,14 +46,12 @@ export default function Home() {
   })
 
   const navigate = useCallback((next: {
-    tab?: TabId
     overlay?: OverlayPage
     activity?: Activity | null
     chatUser?: MatchedUser | null
     chatReturnTo?: 'discover' | 'matchResults' | 'activityDetail'
     matchReturnTo?: 'activityDetail' | 'publish'
   }) => {
-    if (next.tab !== undefined) setActiveTab(next.tab)
     if (next.overlay !== undefined) setOverlayPage(next.overlay)
     if (next.activity !== undefined) setSelectedActivity(next.activity)
     if (next.chatUser !== undefined) setChatUser(next.chatUser)
@@ -66,13 +59,6 @@ export default function Home() {
     if (next.matchReturnTo !== undefined) setMatchReturnTo(next.matchReturnTo)
     setPageKey((k) => k + 1)
   }, [])
-
-  const handleTabChange = useCallback(
-    (tab: string) => {
-      navigate({ tab: tab as TabId, overlay: 'none', activity: null, chatUser: null })
-    },
-    [navigate]
-  )
 
   const handleOpenActivity = useCallback(
     (activity: Activity) => {
@@ -86,7 +72,7 @@ export default function Home() {
   }, [navigate])
 
   const handleFindBuddy = useCallback(() => {
-    navigate({ tab: 'discover', overlay: 'none', activity: null, chatUser: null })
+    navigate({ overlay: 'none', activity: null, chatUser: null })
   }, [navigate])
 
   const handleOpenMatch = useCallback(
@@ -169,39 +155,17 @@ export default function Home() {
     }
   }, [chatReturnTo, navigate])
 
-  const renderTabContent = () => {
-    switch (activeTab) {
-      case 'discover':
-        return (
-          <DiscoverPage
-            onActivityClick={handleOpenActivity}
-            onGreet={handleGreetFromDiscover}
-          />
-        )
-      case 'explore':
-        return <ExplorePage />
-      case 'route':
-        return <RoutePage />
-      case 'profile':
-        return <ProfilePage />
-      default:
-        return (
-          <DiscoverPage
-            onActivityClick={handleOpenActivity}
-            onGreet={handleGreetFromDiscover}
-          />
-        )
-    }
-  }
-
-  const showBottomNav = overlayPage === 'none'
+  const showFloatingPublish = overlayPage === 'none'
 
   return (
     <div className="min-h-screen bg-background flex flex-col max-w-md mx-auto lg:max-w-lg xl:max-w-xl relative lg:my-4 lg:rounded-[2.5rem] lg:overflow-hidden lg:border lg:border-border lg:shadow-xl">
-      <main className="flex-1 overflow-hidden">
+      <main className="flex-1 overflow-hidden relative min-h-0">
         {overlayPage === 'none' && (
-          <PageTransition pageKey={`tab-${activeTab}-${pageKey}`}>
-            {renderTabContent()}
+          <PageTransition pageKey={`home-${pageKey}`}>
+            <DiscoverPage
+              onActivityClick={handleOpenActivity}
+              onGreet={handleGreetFromDiscover}
+            />
           </PageTransition>
         )}
 
@@ -248,16 +212,13 @@ export default function Home() {
             />
           </PageTransition>
         )}
-      </main>
 
-      {showBottomNav && (
-        <BottomNav
-          activeTab={activeTab}
-          onTabChange={handleTabChange}
+        <FloatingPublishButton
+          visible={showFloatingPublish}
           onPublishTrip={handleOpenPublish}
           onFindBuddy={handleFindBuddy}
         />
-      )}
+      </main>
     </div>
   )
 }
