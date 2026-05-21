@@ -48,7 +48,7 @@ export default function FloatingPublishButton({
         <button
           type="button"
           onClick={() => setShowPublishPanel(true)}
-          aria-label="打开发布选项"
+          aria-label="打开导入选项"
           aria-expanded={showPublishPanel}
           className="flex flex-col items-center gap-1.5 active:scale-95 transition-transform duration-150"
         >
@@ -60,7 +60,7 @@ export default function FloatingPublishButton({
           >
             <Plus className="w-7 h-7 stroke-[2.5]" />
           </span>
-          <span className="text-[11px] font-medium text-[#A68B6B] leading-none">发布</span>
+          <span className="text-[11px] font-medium text-[#A68B6B] leading-none whitespace-nowrap">导入行程</span>
         </button>
         </div>
       </div>

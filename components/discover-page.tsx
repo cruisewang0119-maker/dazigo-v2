@@ -390,11 +390,12 @@ export default function DiscoverPage({ onActivityClick, onGreet }: DiscoverPageP
 
   return (
     <div className="relative flex flex-col h-full overflow-hidden">
-      <div className="px-5 pt-8 pb-2 shrink-0 pr-[5.5rem]">
+      <div className="px-5 pt-8 pb-2 shrink-0 pr-[6.5rem]">
         <div className="flex items-start justify-between gap-3 mb-3">
-          <div>
-            <h1 className="font-serif text-4xl text-foreground leading-tight">找到你的</h1>
-            <h1 className="font-serif text-4xl italic text-foreground">搭子。</h1>
+          <div className="min-w-0">
+            <h1 className="font-serif text-4xl text-foreground leading-tight whitespace-nowrap">
+              Find your <span className="italic">buddy</span>
+            </h1>
           </div>
           <button
             type="button"
