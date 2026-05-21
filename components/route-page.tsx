@@ -1,53 +1,48 @@
 'use client'
 
-import { Calendar, MapPin, Users, ChevronRight } from 'lucide-react'
+import { Calendar, ChevronRight } from 'lucide-react'
 import LetterAvatar from '@/components/ui/letter-avatar'
 
 const upcomingRoutes = [
   {
     id: 1,
-    title: '周六探店：Soho美食路线',
-    date: '本周六 · 6:00 PM',
-    stops: ['云南菜', '甜品店', '清吧'],
-    buddies: ['小雨', 'David', 'Chloe'],
+    title: 'Sat food crawl: SoHo',
+    date: 'Sat · 6:00 PM',
+    stops: ['Yunnan', 'Dessert', 'Bar'],
+    buddies: ['Mia', 'David', 'Chloe'],
     spotsLeft: 2,
   },
   {
     id: 2,
-    title: '周日文艺：Chelsea画廊日',
-    date: '本周日 · 2:00 PM',
-    stops: ['Gagosian', 'David Zwirner', '咖啡'],
-    buddies: ['阿杰', 'Sophie'],
+    title: 'Sun art walk: Chelsea',
+    date: 'Sun · 2:00 PM',
+    stops: ['Gagosian', 'Zwirner', 'Coffee'],
+    buddies: ['Ryan', 'Suki'],
     spotsLeft: 4,
   },
 ]
 
 const savedRoutes = [
-  { id: 1, name: '伦敦中餐Top10', stops: 10, likes: 234 },
-  { id: 2, name: '纽约周末brunch攻略', stops: 8, likes: 189 },
-  { id: 3, name: '悉尼海边咖啡馆', stops: 6, likes: 156 },
+  { id: 1, name: 'Top Chinese in London', stops: 10, likes: 234 },
+  { id: 2, name: 'NYC weekend brunch', stops: 8, likes: 189 },
+  { id: 3, name: 'Sydney beach cafes', stops: 6, likes: 156 },
 ]
 
 export default function RoutePage() {
   return (
     <div className="flex flex-col h-full overflow-y-auto">
-      {/* Header */}
       <div className="px-5 pt-8 pb-4">
         <h1 className="font-serif text-3xl text-foreground mb-1">
-          我的<span className="italic">路线</span>
+          My <span className="italic">routes</span>
         </h1>
-        <p className="text-sm text-muted-foreground">和搭子一起探索城市</p>
+        <p className="text-sm text-muted-foreground">Explore the city with buddies</p>
       </div>
 
-      {/* Upcoming Routes */}
       <div className="px-5 mb-8">
-        <h2 className="text-sm font-medium text-foreground mb-4">即将出发</h2>
+        <h2 className="text-sm font-medium text-foreground mb-4">Coming up</h2>
         <div className="space-y-3">
           {upcomingRoutes.map((route) => (
-            <div
-              key={route.id}
-              className="p-4 bg-card rounded-2xl border border-border"
-            >
+            <div key={route.id} className="p-4 bg-card rounded-2xl border border-border">
               <div className="flex items-start justify-between mb-3">
                 <div>
                   <h3 className="font-medium text-foreground mb-1">{route.title}</h3>
@@ -58,8 +53,8 @@ export default function RoutePage() {
                 </div>
                 <ChevronRight className="w-5 h-5 text-muted-foreground" />
               </div>
-              
-              <div className="flex items-center gap-2 mb-3">
+
+              <div className="flex items-center gap-2 mb-3 flex-wrap">
                 {route.stops.map((stop, idx) => (
                   <span key={idx} className="flex items-center text-xs text-muted-foreground">
                     {idx > 0 && <span className="mx-1">→</span>}
@@ -76,11 +71,11 @@ export default function RoutePage() {
                     ))}
                   </div>
                   <span className="ml-3 text-xs text-muted-foreground">
-                    还差 {route.spotsLeft} 人
+                    {route.spotsLeft} spots left
                   </span>
                 </div>
                 <button className="px-3 py-1.5 bg-foreground text-background text-xs font-medium rounded-full">
-                  加入
+                  Join
                 </button>
               </div>
             </div>
@@ -88,9 +83,8 @@ export default function RoutePage() {
         </div>
       </div>
 
-      {/* Saved Routes */}
       <div className="px-5 pb-8">
-        <h2 className="text-sm font-medium text-foreground mb-4">收藏的路线</h2>
+        <h2 className="text-sm font-medium text-foreground mb-4">Saved</h2>
         <div className="space-y-2">
           {savedRoutes.map((route) => (
             <button
@@ -99,7 +93,9 @@ export default function RoutePage() {
             >
               <div>
                 <p className="font-medium text-foreground">{route.name}</p>
-                <p className="text-xs text-muted-foreground">{route.stops} 个地点 · {route.likes} 收藏</p>
+                <p className="text-xs text-muted-foreground">
+                  {route.stops} stops · {route.likes} saves
+                </p>
               </div>
               <ChevronRight className="w-5 h-5 text-muted-foreground" />
             </button>

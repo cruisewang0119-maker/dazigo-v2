@@ -5,23 +5,23 @@ import { Search, SlidersHorizontal, X } from 'lucide-react'
 import { mockActivities, type Activity, type ActivityBudget, type ActivitySchedule } from '@/lib/mock-data'
 import LetterAvatar from '@/components/ui/letter-avatar'
 
-const categoryTags = ['全部', '吃饭', '喝酒', '咖啡', '看展', 'KTV'] as const
+const categoryTags = ['All', 'Dining', 'Drinks', 'Coffee', 'Art', 'KTV'] as const
 
-const cities = ['伦敦', '纽约', '悉尼', '多伦多', '新加坡'] as const
+const cities = ['London', 'NYC', 'Sydney', 'Toronto', 'Singapore'] as const
 const scheduleOptions: { id: ActivitySchedule; label: string }[] = [
-  { id: 'today', label: '今天' },
-  { id: 'tomorrow', label: '明天' },
-  { id: 'weekend', label: '本周末' },
+  { id: 'today', label: 'Today' },
+  { id: 'tomorrow', label: 'Tomorrow' },
+  { id: 'weekend', label: 'This weekend' },
 ]
 const peopleOptions = [
-  { id: '1', label: '1人' },
-  { id: '2', label: '2人' },
-  { id: '3+', label: '3人以上' },
+  { id: '1', label: 'Solo' },
+  { id: '2', label: 'Pair' },
+  { id: '3+', label: '3+' },
 ] as const
 const budgetOptions: { id: ActivityBudget; label: string }[] = [
-  { id: 'low', label: '£20以下' },
-  { id: 'mid', label: '£20-50' },
-  { id: 'high', label: '£50+' },
+  { id: 'low', label: 'Under $20' },
+  { id: 'mid', label: '$20–50' },
+  { id: 'high', label: '$50+' },
 ]
 
 type PeopleFilter = (typeof peopleOptions)[number]['id']
@@ -141,7 +141,7 @@ function BuddyCard({
               </span>
             </div>
             <span className="text-sm font-semibold text-accent shrink-0 ml-2">
-              {matchPercent}% 匹配
+              {matchPercent}% match
             </span>
           </div>
 
@@ -180,10 +180,10 @@ function BuddyCard({
               onClick={() => onGreet(activity)}
               className="flex-1 py-2.5 rounded-full text-sm font-medium bg-foreground text-background hover:bg-foreground/90 transition-all"
             >
-              打招呼
+              Say hi
             </button>
             <button className="flex-1 py-2.5 rounded-full text-sm font-medium border border-border text-foreground hover:border-foreground transition-all">
-              跳过
+              Skip
             </button>
           </div>
         </div>
@@ -213,13 +213,13 @@ function FilterPanel({
     <div className="absolute inset-0 z-40 flex flex-col justify-end">
       <button
         type="button"
-        aria-label="关闭筛选"
+        aria-label="Close filters"
         className="flex-1 bg-black/40"
         onClick={onClose}
       />
       <div className="bg-card rounded-t-3xl border-t border-border shadow-2xl max-h-[78%] overflow-y-auto animate-in slide-in-from-bottom duration-200">
         <div className="flex items-center justify-between px-5 py-4 border-b border-border sticky top-0 bg-card z-10">
-          <h2 className="font-serif text-lg text-foreground">筛选</h2>
+          <h2 className="font-serif text-lg text-foreground">Filters</h2>
           <button
             type="button"
             onClick={onClose}
@@ -231,7 +231,7 @@ function FilterPanel({
 
         <div className="px-5 py-4 space-y-6">
           <section>
-            <p className="text-sm font-medium text-muted-foreground mb-3">城市</p>
+            <p className="text-sm font-medium text-muted-foreground mb-3">City</p>
             <div className="flex flex-wrap gap-2">
               {cities.map((city) => (
                 <button
@@ -251,7 +251,7 @@ function FilterPanel({
           </section>
 
           <section>
-            <p className="text-sm font-medium text-muted-foreground mb-3">时间</p>
+            <p className="text-sm font-medium text-muted-foreground mb-3">When</p>
             <div className="flex flex-wrap gap-2">
               {scheduleOptions.map(({ id, label }) => (
                 <button
@@ -271,7 +271,7 @@ function FilterPanel({
           </section>
 
           <section>
-            <p className="text-sm font-medium text-muted-foreground mb-3">人数</p>
+            <p className="text-sm font-medium text-muted-foreground mb-3">Group size</p>
             <div className="flex flex-wrap gap-2">
               {peopleOptions.map(({ id, label }) => (
                 <button
@@ -291,7 +291,7 @@ function FilterPanel({
           </section>
 
           <section>
-            <p className="text-sm font-medium text-muted-foreground mb-3">预算</p>
+            <p className="text-sm font-medium text-muted-foreground mb-3">Budget</p>
             <div className="flex flex-wrap gap-2">
               {budgetOptions.map(({ id, label }) => (
                 <button
@@ -317,14 +317,14 @@ function FilterPanel({
             onClick={onReset}
             className="flex-1 py-3 rounded-full text-sm font-medium border border-border text-foreground hover:bg-muted transition-all"
           >
-            重置
+            Reset
           </button>
           <button
             type="button"
             onClick={onApply}
             className="flex-[2] py-3 rounded-full text-sm font-medium bg-foreground text-background hover:bg-foreground/90 transition-all"
           >
-            筛选
+            Apply
           </button>
         </div>
       </div>
@@ -333,7 +333,7 @@ function FilterPanel({
 }
 
 export default function DiscoverPage({ onActivityClick, onGreet }: DiscoverPageProps) {
-  const [selectedCategory, setSelectedCategory] = useState<string>('全部')
+  const [selectedCategory, setSelectedCategory] = useState<string>('All')
   const [searchQuery, setSearchQuery] = useState('')
   const [showFilterPanel, setShowFilterPanel] = useState(false)
   const [draftFilters, setDraftFilters] = useState<PanelFilters>(emptyPanelFilters)
@@ -347,7 +347,7 @@ export default function DiscoverPage({ onActivityClick, onGreet }: DiscoverPageP
     const q = searchQuery.trim().toLowerCase()
 
     return mockActivities.filter((activity) => {
-      if (selectedCategory !== '全部' && activity.category !== selectedCategory) {
+      if (selectedCategory !== 'All' && activity.category !== selectedCategory) {
         return false
       }
 
@@ -370,7 +370,7 @@ export default function DiscoverPage({ onActivityClick, onGreet }: DiscoverPageP
 
   const showResultCount =
     panelFiltersActive ||
-    selectedCategory !== '全部' ||
+    selectedCategory !== 'All' ||
     searchQuery.trim().length > 0
 
   const openFilterPanel = () => {
@@ -393,7 +393,7 @@ export default function DiscoverPage({ onActivityClick, onGreet }: DiscoverPageP
       <div className="px-5 pt-8 pb-2 shrink-0 pr-[6.5rem]">
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="min-w-0">
-            <h1 className="font-serif text-4xl text-foreground leading-tight whitespace-nowrap">
+            <h1 className="font-serif text-2xl text-foreground leading-tight whitespace-nowrap">
               Find your <span className="italic">buddy</span>
             </h1>
           </div>
@@ -401,7 +401,7 @@ export default function DiscoverPage({ onActivityClick, onGreet }: DiscoverPageP
             type="button"
             onClick={openFilterPanel}
             className="mt-2 w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center hover:border-foreground/30 transition-colors shrink-0"
-            aria-label="打开筛选"
+            aria-label="Open filters"
           >
             <SlidersHorizontal className="w-5 h-5 text-foreground" />
           </button>
@@ -413,7 +413,7 @@ export default function DiscoverPage({ onActivityClick, onGreet }: DiscoverPageP
             type="search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="搜索活动、标签、城市..."
+            placeholder="Search plans, tags, cities..."
             className="w-full pl-10 pr-4 py-2.5 rounded-full bg-card border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground/40 transition-colors"
           />
           {searchQuery && (
@@ -421,7 +421,7 @@ export default function DiscoverPage({ onActivityClick, onGreet }: DiscoverPageP
               type="button"
               onClick={() => setSearchQuery('')}
               className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 rounded-full hover:bg-muted"
-              aria-label="清空搜索"
+              aria-label="Clear search"
             >
               <X className="w-4 h-4 text-muted-foreground" />
             </button>
@@ -430,11 +430,11 @@ export default function DiscoverPage({ onActivityClick, onGreet }: DiscoverPageP
 
         {showResultCount ? (
           <p className="text-sm font-medium text-foreground">
-            找到 <span className="text-accent">{filteredActivities.length}</span> 个活动
+            <span className="text-accent">{filteredActivities.length}</span> plans found
           </p>
         ) : (
           <p className="text-sm text-muted-foreground">
-            {mockActivities.length} 个活动等你发现
+            {mockActivities.length} plans near you
           </p>
         )}
       </div>
@@ -471,8 +471,8 @@ export default function DiscoverPage({ onActivityClick, onGreet }: DiscoverPageP
           ))
         ) : (
           <div className="flex flex-col items-center justify-center py-16 text-center">
-            <p className="text-foreground font-medium mb-1">暂无匹配活动</p>
-            <p className="text-sm text-muted-foreground">试试调整分类、搜索词或筛选条件</p>
+            <p className="text-foreground font-medium mb-1">No plans found</p>
+            <p className="text-sm text-muted-foreground">Try different filters or search terms</p>
           </div>
         )}
       </div>

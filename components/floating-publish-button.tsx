@@ -13,15 +13,15 @@ const publishOptions = [
   {
     id: 'trip' as const,
     emoji: '📅',
-    title: '发布行程',
-    subtitle: '发布一个新的出游计划',
+    title: 'Post a plan',
+    subtitle: 'Share a new outing or hangout',
     icon: Calendar,
   },
   {
     id: 'buddy' as const,
     emoji: '🙋',
-    title: '找搭子',
-    subtitle: '基于现有行程找同伴',
+    title: 'Find buddies',
+    subtitle: 'Match with people on existing plans',
     icon: Users,
   },
 ]
@@ -43,25 +43,27 @@ export default function FloatingPublishButton({
 
   return (
     <>
-      <div className="fixed top-7 right-7 z-50 flex flex-col items-center gap-1.5 pointer-events-none">
-        <div className="pointer-events-auto">
-        <button
-          type="button"
-          onClick={() => setShowPublishPanel(true)}
-          aria-label="打开导入选项"
-          aria-expanded={showPublishPanel}
-          className="flex flex-col items-center gap-1.5 active:scale-95 transition-transform duration-150"
-        >
-          <span
-            className="flex items-center justify-center w-14 h-14 rounded-full border-2 border-white text-white shadow-[0_6px_20px_rgba(255,107,107,0.45)]"
-            style={{
-              background: 'linear-gradient(135deg, #FF6B6B 0%, #FF8C42 100%)',
-            }}
+      <div className="fixed top-7 right-5 z-50 pointer-events-none">
+        <div className="pointer-events-auto flex flex-col items-center gap-1">
+          <button
+            type="button"
+            onClick={() => setShowPublishPanel(true)}
+            aria-label="Import or post"
+            aria-expanded={showPublishPanel}
+            className="flex flex-col items-center active:scale-95 transition-transform duration-150"
           >
-            <Plus className="w-7 h-7 stroke-[2.5]" />
-          </span>
-          <span className="text-[11px] font-medium text-[#A68B6B] leading-none whitespace-nowrap">导入行程</span>
-        </button>
+            <span
+              className="flex items-center justify-center w-14 h-14 rounded-full border-2 border-white text-white shadow-[0_6px_20px_rgba(255,107,107,0.45)]"
+              style={{
+                background: 'linear-gradient(135deg, #FF6B6B 0%, #FF8C42 100%)',
+              }}
+            >
+              <Plus className="w-7 h-7 stroke-[2.5]" />
+            </span>
+            <span className="text-[10px] font-medium text-[#A68B6B] leading-none whitespace-nowrap max-w-[4.5rem] text-center">
+              Import
+            </span>
+          </button>
         </div>
       </div>
 
@@ -69,13 +71,13 @@ export default function FloatingPublishButton({
         <div className="fixed inset-0 z-[60] flex flex-col justify-end max-w-md mx-auto lg:max-w-lg xl:max-w-xl">
           <button
             type="button"
-            aria-label="关闭"
+            aria-label="Close"
             className="flex-1 bg-black/45 animate-in fade-in duration-200"
             onClick={() => setShowPublishPanel(false)}
           />
           <div className="bg-card rounded-t-3xl border-t border-border px-5 pt-5 pb-safe shadow-2xl animate-in slide-in-from-bottom duration-300">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-serif text-lg text-foreground">想要做什么？</h2>
+              <h2 className="font-serif text-lg text-foreground">What&apos;s up?</h2>
               <button
                 type="button"
                 onClick={() => setShowPublishPanel(false)}

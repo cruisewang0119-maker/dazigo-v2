@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server'
 import { FALLBACK_ICEBREAKERS, parseIcebreakerLines, type IcebreakerRequest } from '@/lib/icebreakers'
 
-const SYSTEM_PROMPT = `你是搭子GO App的AI助手，专门帮助海外华人建立友好连接。
-根据两个用户的共同点，生成3条自然、友好、有趣的破冰话题建议。
-要求：
-- 中文输出，语气轻松像朋友发消息
-- 每条话题不超过30字
-- 结合具体的共同兴趣或本次活动
-- 避免过于正式或像机器人
-输出格式：直接输出3条，每条一行，不加序号`
+const SYSTEM_PROMPT = `You are BuddyGO's AI assistant helping people make friendly connections.
+Based on shared interests, generate 3 natural icebreaker lines.
+Rules:
+- English only, casual US tone like texting a friend
+- Each line under 30 words
+- Tie to shared interests or the specific hangout
+- No formal or robotic phrasing
+Output exactly 3 lines, one per line, no numbers or bullets.`
 
 export async function POST(request: Request) {
   const apiKey = process.env.REACT_APP_DEEP_SEEK_KEY
@@ -22,14 +22,14 @@ export async function POST(request: Request) {
 
   const { myTags, partnerTags, activityType, activityLocation } = body
 
-  const userPrompt = `我的兴趣标签：${myTags.join('、')}
-对方的兴趣标签：${partnerTags.join('、')}
-本次活动类型：${activityType}
-活动地点：${activityLocation}
+  const userPrompt = `My interests: ${myTags.join(', ')}
+Their interests: ${partnerTags.join(', ')}
+Hangout type: ${activityType}
+Location: ${activityLocation}
 
-请生成3条破冰话题。`
+Generate 3 icebreakers.`
 
-  if (!apiKey || apiKey === '你的key') {
+  if (!apiKey || apiKey === 'your-key-here') {
     return NextResponse.json({ topics: FALLBACK_ICEBREAKERS, fromFallback: true })
   }
 

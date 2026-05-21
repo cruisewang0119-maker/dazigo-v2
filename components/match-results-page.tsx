@@ -32,9 +32,9 @@ interface MatchResultsPageProps {
 }
 
 const DEFAULT_ACTIVITY: PublishedActivityContext = {
-  type: '吃饭',
-  location: '伦敦',
-  time: '本周末',
+  type: 'Dining',
+  location: 'London',
+  time: 'This weekend',
 }
 
 function MatchReasonSkeleton() {
@@ -97,7 +97,7 @@ export default function MatchResultsPage({
     const firstLoaded = matchedUsers.find((u) => matchReasons[u.id])
     if (firstLoaded) return matchReasons[firstLoaded.id]
     return getFallbackMatchReason(
-      matchedUsers[0]?.name ?? '搭子',
+      matchedUsers[0]?.name ?? 'buddy',
       matchedUsers[0]?.commonPoints ?? [],
       context
     )
@@ -121,7 +121,7 @@ export default function MatchResultsPage({
             <ArrowLeft className="w-5 h-5 text-foreground" />
           </button>
           <div>
-            <h1 className="font-serif text-xl text-foreground">为你找到的搭子</h1>
+            <h1 className="font-serif text-xl text-foreground">Your matches</h1>
             <p className="text-xs text-muted-foreground">
               {context.type} · {context.location}
               {context.time ? ` · ${context.time}` : ''}
@@ -166,7 +166,7 @@ export default function MatchResultsPage({
                         <span className="text-xs text-muted-foreground">· {user.city}</span>
                       </div>
                       <span className="text-sm font-semibold text-accent">
-                        {user.matchPercent}% 匹配
+                        {user.matchPercent}% match
                       </span>
                     </div>
 
@@ -198,10 +198,10 @@ export default function MatchResultsPage({
                             : 'bg-foreground text-background hover:bg-foreground/90'
                         }`}
                       >
-                        {greetedUsers.includes(user.id) ? '已打招呼' : '打招呼'}
-                      </button>
-                      <button className="flex-1 py-2.5 rounded-full text-sm font-medium border border-border text-foreground hover:border-foreground transition-all">
-                        跳过
+                      {greetedUsers.includes(user.id) ? 'Sent' : 'Say hi'}
+                    </button>
+                    <button className="flex-1 py-2.5 rounded-full text-sm font-medium border border-border text-foreground hover:border-foreground transition-all">
+                      Skip
                       </button>
                     </div>
                   </div>
@@ -215,7 +215,7 @@ export default function MatchResultsPage({
       <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border max-w-md mx-auto lg:max-w-lg xl:max-w-xl">
         <div className="p-5">
           <p className="text-xs text-center text-muted-foreground mb-3">
-            AI已为你准备好开场白，点击打招呼即可发送
+            Icebreakers ready — tap Say hi to send
           </p>
           <button
             onClick={() => setGreetedUsers(matchedUsers.map((u) => u.id))}
@@ -227,8 +227,8 @@ export default function MatchResultsPage({
             }`}
           >
             {greetedUsers.length === matchedUsers.length
-              ? '已向所有人打招呼'
-              : '一键给所有人打招呼'}
+              ? 'All greeted'
+              : 'Say hi to all'}
           </button>
         </div>
       </div>

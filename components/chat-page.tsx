@@ -24,27 +24,27 @@ const mockMessages = [
     id: 1,
     type: 'match-info',
     content: '',
-    matchTags: ['Deep talk', '咖啡控', '艺术'],
+    matchTags: ['Deep talk', 'Coffee lover', 'Art'],
   },
   {
     id: 2,
     type: 'received',
-    content: '嗨！看到你也喜欢慢brunch，试过SoHo的Butler吗？',
+    content: 'Hey! Into slow brunch too — ever tried Butler in SoHo?',
   },
   {
     id: 3,
     type: 'sent',
-    content: '还没有！适合安静的早晨吗？',
+    content: 'Not yet! Good for a quiet morning?',
   },
   {
     id: 4,
     type: 'received',
-    content: '超适合。抹茶很棒，10点前人少。这周六要不要一起去？',
+    content: 'Totally. Matcha is great before 10. Saturday 9:30?',
   },
   {
     id: 5,
     type: 'sent',
-    content: '太好了！那就周六9:30？',
+    content: 'Perfect — see you then!',
   },
 ]
 
@@ -118,10 +118,6 @@ export default function ChatPage({
     setShowSuggestions(false)
   }
 
-  const handleLightningClick = () => {
-    setShowSuggestions(true)
-  }
-
   const displayTopics = icebreakers.length >= 3 ? icebreakers : FALLBACK_ICEBREAKERS
 
   return (
@@ -135,12 +131,10 @@ export default function ChatPage({
             <ArrowLeft className="w-5 h-5 text-foreground" />
           </button>
           <LetterAvatar name={user.name} size="md" isOnline={true} />
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-semibold text-foreground">{user.name}</span>
-            </div>
-            <p className="text-xs text-muted-foreground">
-              在线 · {user.city} · {activityInfo}
+          <div className="min-w-0">
+            <span className="font-semibold text-foreground">{user.name}</span>
+            <p className="text-xs text-muted-foreground truncate">
+              Online · {user.city} · {activityInfo}
             </p>
           </div>
         </div>
@@ -153,7 +147,7 @@ export default function ChatPage({
               msg.matchTags && msg.matchTags.length > 0 ? msg.matchTags : user.commonPoints
             return (
               <div key={msg.id} className="flex flex-col items-center py-4">
-                <p className="text-xs text-muted-foreground mb-2 tracking-wide">你们匹配的兴趣</p>
+                <p className="text-xs text-muted-foreground mb-2 tracking-wide">Shared interests</p>
                 <div className="flex flex-wrap justify-center gap-2">
                   {tags.map((tag, idx) => (
                     <span
@@ -197,12 +191,12 @@ export default function ChatPage({
           <div className="bg-card border border-border rounded-2xl p-4 shadow-sm">
             <div className="flex items-center gap-2 mb-3">
               <Zap className="w-4 h-4 text-[#FF6B6B]" fill="#FF6B6B" />
-              <span className="text-sm font-medium text-foreground">AI 破冰话题</span>
+              <span className="text-sm font-medium text-foreground">Icebreakers</span>
             </div>
 
             {loadingIcebreakers ? (
               <p className="text-sm text-muted-foreground flex items-center">
-                AI思考中
+                Thinking
                 <ThinkingDots />
               </p>
             ) : (
@@ -228,13 +222,13 @@ export default function ChatPage({
         <div className="flex items-center gap-2">
           <button
             type="button"
-            onClick={handleLightningClick}
+            onClick={() => setShowSuggestions(true)}
             className={`w-11 h-11 shrink-0 rounded-full flex items-center justify-center border transition-all ${
               showSuggestions
                 ? 'bg-[#FF6B6B]/10 border-[#FF6B6B] text-[#FF6B6B]'
                 : 'bg-card border-border text-foreground hover:border-foreground/30'
             }`}
-            aria-label="AI破冰话题"
+            aria-label="Icebreakers"
           >
             <Zap className="w-5 h-5" fill={showSuggestions ? '#FF6B6B' : 'none'} />
           </button>
@@ -243,7 +237,7 @@ export default function ChatPage({
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-            placeholder="输入消息..."
+            placeholder="Message..."
             className="flex-1 px-4 py-3 bg-card border border-border rounded-full text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground/30"
           />
           <button

@@ -17,7 +17,7 @@ export default function ActivityDetailPage({
   onInterested,
   onGreet,
 }: ActivityDetailPageProps) {
-  const matchPercent = 75 + (parseInt(activity.id, 10) % 23)
+  const matchPercent = 75 + (parseInt(activity.id.replace(/\D/g, ''), 10) % 23)
 
   return (
     <div className="fixed inset-0 bg-background z-50 flex flex-col max-w-md mx-auto lg:max-w-lg xl:max-w-xl">
@@ -28,7 +28,7 @@ export default function ActivityDetailPage({
         >
           <ArrowLeft className="w-5 h-5 text-foreground" />
         </button>
-        <h1 className="font-serif text-lg text-foreground">活动详情</h1>
+        <h1 className="font-serif text-lg text-foreground">Plan details</h1>
       </header>
 
       <div className="flex-1 overflow-y-auto pb-32">
@@ -38,7 +38,7 @@ export default function ActivityDetailPage({
               {activity.category}
             </span>
             <span className="text-xs text-muted-foreground">{activity.city}</span>
-            <span className="text-sm font-semibold text-accent ml-auto">{matchPercent}% 匹配</span>
+            <span className="text-sm font-semibold text-accent ml-auto">{matchPercent}% match</span>
           </div>
 
           <h2 className="text-xl font-semibold text-foreground leading-snug mb-4">
@@ -64,12 +64,12 @@ export default function ActivityDetailPage({
             </div>
             <div className="flex items-center gap-2 text-sm text-foreground">
               <Users className="w-4 h-4 text-muted-foreground shrink-0" />
-              <span>还剩 {activity.spotsLeft} 个名额</span>
+              <span>{activity.spotsLeft} spot{activity.spotsLeft !== 1 ? 's' : ''} left</span>
             </div>
           </div>
 
           <div className="mb-4">
-            <p className="text-sm font-medium text-muted-foreground mb-2">口味标签</p>
+            <p className="text-sm font-medium text-muted-foreground mb-2">Taste</p>
             <div className="flex flex-wrap gap-2">
               {activity.tasteTags.map((tag) => (
                 <span
@@ -83,7 +83,7 @@ export default function ActivityDetailPage({
           </div>
 
           <div>
-            <p className="text-sm font-medium text-muted-foreground mb-2">兴趣标签</p>
+            <p className="text-sm font-medium text-muted-foreground mb-2">Interests</p>
             <div className="flex flex-wrap gap-2">
               {activity.interestTags.map((tag) => (
                 <span
@@ -104,13 +104,13 @@ export default function ActivityDetailPage({
             onClick={onInterested}
             className="flex-1 py-3.5 rounded-full text-sm font-medium bg-primary text-primary-foreground hover:opacity-90 transition-all"
           >
-            感兴趣
+            Interested
           </button>
           <button
             onClick={onGreet}
             className="flex-1 py-3.5 rounded-full text-sm font-medium bg-foreground text-background hover:bg-foreground/90 transition-all"
           >
-            打招呼
+            Say hi
           </button>
         </div>
       </div>

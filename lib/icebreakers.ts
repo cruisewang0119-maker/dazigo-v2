@@ -8,9 +8,9 @@ export interface IcebreakerRequest {
 }
 
 export const FALLBACK_ICEBREAKERS = [
-  '这次活动你最期待吃哪道菜？',
-  '你平时周末也喜欢探店吗？',
-  '除了吃饭，最近还有什么好玩的推荐？',
+  'What are you most excited to try there?',
+  'Do you explore new spots on weekends too?',
+  'Any other hidden gems you would recommend?',
 ]
 
 export function getDefaultIcebreakerContext(
@@ -19,8 +19,8 @@ export function getDefaultIcebreakerContext(
   activityInfo: string
 ): IcebreakerRequest {
   const parts = activityInfo.split('·').map((s) => s.trim())
-  const activityType = parts[1] || '聚餐'
-  const activityLocation = parts[2] || parts[0] || '附近'
+  const activityType = parts[1] || 'Hangout'
+  const activityLocation = parts[2] || parts[0] || 'Nearby'
 
   return {
     myTags: CURRENT_USER.tags,
@@ -39,7 +39,7 @@ export function parseIcebreakerLines(text: string): string[] {
         .replace(/^[-*•]\s*/, '')
         .trim()
     )
-    .filter((line) => line.length > 0 && line.length <= 60)
+    .filter((line) => line.length > 0 && line.length <= 80)
 
   if (lines.length >= 3) return lines.slice(0, 3)
 

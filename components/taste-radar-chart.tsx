@@ -46,7 +46,7 @@ export default function TasteRadarChart({ data }: TasteRadarChartProps) {
         viewBox={`0 0 ${SIZE} ${SIZE}`}
         className="w-full max-w-[300px] h-auto"
         role="img"
-        aria-label="口味图谱雷达图"
+        aria-label="Taste profile radar chart"
       >
         {/* 网格六边形 */}
         {gridLevels.map((level) => (

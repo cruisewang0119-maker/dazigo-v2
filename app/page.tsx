@@ -40,9 +40,9 @@ export default function Home() {
   const [chatReturnTo, setChatReturnTo] = useState<'discover' | 'matchResults' | 'activityDetail'>('discover')
   const [matchReturnTo, setMatchReturnTo] = useState<'activityDetail' | 'publish'>('activityDetail')
   const [matchActivityContext, setMatchActivityContext] = useState<PublishedActivityContext>({
-    type: '吃饭',
-    location: '伦敦',
-    time: '本周末',
+    type: 'Dining',
+    location: 'London',
+    time: 'This weekend',
   })
 
   const navigate = useCallback((next: {

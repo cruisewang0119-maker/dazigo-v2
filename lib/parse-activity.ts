@@ -17,46 +17,47 @@ export interface MappedActivityForm {
 }
 
 const TYPE_MAP: Record<string, string> = {
-  吃饭: 'eat',
-  喝酒: 'drink',
-  咖啡: 'coffee',
-  看展: 'exhibition',
+  Dining: 'eat',
+  Drinks: 'drink',
+  Coffee: 'coffee',
+  Art: 'exhibition',
   KTV: 'ktv',
-  其他: 'other',
+  Other: 'other',
 }
 
 const TIME_MAP: Record<string, string> = {
-  今天: 'today',
-  明天: 'tomorrow',
-  本周末: 'weekend',
+  Today: 'today',
+  Tomorrow: 'tomorrow',
+  'This weekend': 'weekend',
 }
 
 const BUDGET_MAP: Record<string, string> = {
-  低: 'low',
-  中: 'mid',
-  高: 'high',
+  Low: 'low',
+  Mid: 'mid',
+  High: 'high',
 }
 
 const VIBE_MAP: Record<string, string> = {
-  随性聊天型: '随性聊天',
-  深度交流型: '深度交流',
-  '只吃饭不尬聊型': '安静聚餐',
-  探店打卡型: '探店打卡',
+  'Casual chat': 'Easy hang',
+  'Deep convo': 'Deep talk',
+  'Low-key meal': 'Low-key',
+  'Foodie crawl': 'Food crawl',
 }
 
 export function mapParsedToForm(parsed: ParsedActivityForm): MappedActivityForm {
-  const typeKey = Object.keys(TYPE_MAP).find((k) => parsed.activityType?.includes(k)) ?? '吃饭'
-  const timeKey = Object.keys(TIME_MAP).find((k) => parsed.timePreference?.includes(k)) ?? '本周末'
-  const budgetKey = Object.keys(BUDGET_MAP).find((k) => parsed.budget?.includes(k)) ?? '中'
+  const typeKey = Object.keys(TYPE_MAP).find((k) => parsed.activityType?.includes(k)) ?? 'Dining'
+  const timeKey = Object.keys(TIME_MAP).find((k) => parsed.timePreference?.includes(k)) ?? 'This weekend'
+  const budgetKey = Object.keys(BUDGET_MAP).find((k) => parsed.budget?.includes(k)) ?? 'Mid'
+
   const atmosphereTag =
     VIBE_MAP[parsed.vibeTag ?? ''] ??
     Object.entries(VIBE_MAP).find(([k]) => parsed.vibeTag?.includes(k))?.[1] ??
-    '随性聊天'
+    'Easy hang'
 
   return {
     typeId: TYPE_MAP[typeKey] ?? 'eat',
     dateId: TIME_MAP[timeKey] ?? 'weekend',
-    location: parsed.location?.trim() || '伦敦',
+    location: parsed.location?.trim() || 'London',
     budgetId: BUDGET_MAP[budgetKey] ?? 'mid',
     atmosphereTag,
     title: parsed.title?.trim() || '',
@@ -75,35 +76,35 @@ function extractJsonFromText(text: string): ParsedActivityForm | null {
 }
 
 export function parseActivityFallback(description: string): ParsedActivityForm {
-  let activityType = '吃饭'
-  if (/喝|酒|bar|精酿|威士忌/.test(description)) activityType = '喝酒'
-  else if (/咖啡|奶茶|抹茶/.test(description)) activityType = '咖啡'
-  else if (/展|博物馆|艺术/.test(description)) activityType = '看展'
-  else if (/k歌|唱|ktv/i.test(description)) activityType = 'KTV'
+  let activityType = 'Dining'
+  if (/drink|bar|beer|cocktail|whiskey/i.test(description)) activityType = 'Drinks'
+  else if (/coffee|latte|matcha/i.test(description)) activityType = 'Coffee'
+  else if (/museum|gallery|art|exhibit/i.test(description)) activityType = 'Art'
+  else if (/karaoke|ktv|sing/i.test(description)) activityType = 'KTV'
 
-  let timePreference = '本周末'
-  if (/今天|今晚|今夜/.test(description)) timePreference = '今天'
-  else if (/明天|明晚/.test(description)) timePreference = '明天'
+  let timePreference = 'This weekend'
+  if (/today|tonight/i.test(description)) timePreference = 'Today'
+  else if (/tomorrow/i.test(description)) timePreference = 'Tomorrow'
 
-  let location = '伦敦'
-  const cities = ['伦敦', '纽约', '悉尼', '多伦多', '新加坡', 'Shoreditch', 'Manhattan', 'Flushing']
+  let location = 'London'
+  const cities = ['London', 'NYC', 'New York', 'Sydney', 'Toronto', 'Singapore', 'Shoreditch', 'Manhattan', 'Flushing']
   for (const c of cities) {
     if (description.includes(c)) {
-      location = c
+      location = c === 'New York' ? 'NYC' : c
       break
     }
   }
 
-  let budget = '中'
-  if (/便宜|预算|20以下|低消费|小贩/.test(description)) budget = '低'
-  else if (/50\+|高端|威士忌|私房菜|请客/.test(description)) budget = '高'
+  let budget = 'Mid'
+  if (/cheap|budget|under \$20|low/i.test(description)) budget = 'Low'
+  else if (/\$50\+|upscale|fancy|treat/i.test(description)) budget = 'High'
 
-  let vibeTag = '随性聊天型'
-  if (/深度|聊天|交流|不尬/.test(description)) vibeTag = '深度交流型'
-  if (/探店|打卡|新店/.test(description)) vibeTag = '探店打卡型'
-  if (/只吃饭|不尬聊|安静/.test(description)) vibeTag = '只吃饭不尬聊型'
+  let vibeTag = 'Casual chat'
+  if (/deep|meaningful|real talk/i.test(description)) vibeTag = 'Deep convo'
+  if (/food crawl|new spot|restaurant hop/i.test(description)) vibeTag = 'Foodie crawl'
+  if (/low.?key|no awkward|chill meal/i.test(description)) vibeTag = 'Low-key meal'
 
-  const title = description.length > 20 ? `${description.slice(0, 18)}…` : description
+  const title = description.length > 40 ? `${description.slice(0, 38)}…` : description
 
   return { activityType, timePreference, location, budget, vibeTag, title }
 }

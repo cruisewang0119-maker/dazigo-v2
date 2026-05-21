@@ -5,23 +5,20 @@ import {
   type PublishedActivityContext,
 } from '@/lib/match-reasons'
 
-const SYSTEM_PROMPT = `你是搭子GO的智能匹配引擎，根据两个用户的信息，
-生成一段自然的匹配理由。
-
-要求：
-- 中文，2-3句话，像朋友介绍朋友的语气
-- 具体说出2个共同点
-- 结尾给出一个具体的见面建议
-- 不超过60字
-
-输出格式：直接输出文字，不加任何标签或格式`
+const SYSTEM_PROMPT = `You are BuddyGO's matching engine. Write a natural match reason.
+Rules:
+- English, 2-3 sentences, like a friend introducing two people
+- Mention 2 specific things in common
+- End with a concrete meetup suggestion
+- Under 60 words total
+Output plain text only, no labels or formatting.`
 
 function trimReason(text: string): string {
   return text
-    .replace(/^["'「『]|["'」』]$/g, '')
-    .replace(/\n+/g, '')
+    .replace(/^["']|["']$/g, '')
+    .replace(/\n+/g, ' ')
     .trim()
-    .slice(0, 60)
+    .slice(0, 200)
 }
 
 export async function POST(request: Request) {
@@ -42,29 +39,29 @@ export async function POST(request: Request) {
 
   const fallback = getFallbackMatchReason(body.partnerName, body.commonPoints, activity)
 
-  if (!apiKey || apiKey === '你的key') {
+  if (!apiKey || apiKey === 'your-key-here') {
     return NextResponse.json({ reason: fallback, fromFallback: true })
   }
 
-  const userPrompt = `【我】
-城市：${body.myCity}
-身份：${body.myRole}
-兴趣标签：${body.myTags.join('、')}
+  const userPrompt = `[Me]
+City: ${body.myCity}
+Role: ${body.myRole}
+Interests: ${body.myTags.join(', ')}
 
-【对方】
-昵称：${body.partnerName}
-城市：${body.partnerCity}
-身份：${body.partnerTag}
-兴趣标签：${body.partnerTags.join('、')}
-共同点：${body.commonPoints.join('、')}
-匹配度：${body.matchPercent}%
+[Them]
+Name: ${body.partnerName}
+City: ${body.partnerCity}
+Role: ${body.partnerTag}
+Interests: ${body.partnerTags.join(', ')}
+In common: ${body.commonPoints.join(', ')}
+Match: ${body.matchPercent}%
 
-【本次活动】
-类型：${body.activityType}
-地点：${body.activityLocation}
-${body.activityTime ? `时间：${body.activityTime}` : ''}
+[Hangout]
+Type: ${body.activityType}
+Place: ${body.activityLocation}
+${body.activityTime ? `When: ${body.activityTime}` : ''}
 
-请生成匹配理由。`
+Write the match reason.`
 
   try {
     const response = await fetch('https://api.deepseek.com/chat/completions', {

@@ -57,9 +57,9 @@ export function getFallbackMatchReason(
   activity: PublishedActivityContext
 ): string {
   const points = commonPoints.slice(0, 2)
-  const pointText = points.length >= 2 ? `${points[0]}和${points[1]}` : points[0] || '美食'
-  const timeHint = activity.time ? `，${activity.time}` : ''
-  return `介绍你们认识：${partnerName}和你一样喜欢${pointText}。不如约个${activity.type}${timeHint}，去${activity.location}见一面？`
+  const pointText = points.length >= 2 ? `${points[0]} and ${points[1]}` : points[0] || 'food'
+  const timeHint = activity.time ? ` ${activity.time}` : ''
+  return `${partnerName} is into ${pointText} too. Try ${activity.type}${timeHint} at ${activity.location}.`
 }
 
 export async function fetchMatchReason(payload: MatchReasonRequest): Promise<{

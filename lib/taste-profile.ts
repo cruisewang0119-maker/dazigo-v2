@@ -1,4 +1,4 @@
-/** 口味图谱六维 mock 数据（0-100） */
+/** Taste radar mock data (0-100) */
 export interface TasteRadarData {
   spiceTolerance: number
   tastePreference: number
@@ -18,83 +18,61 @@ export const tasteRadarMock: TasteRadarData = {
 }
 
 export const TASTE_DIMENSIONS: { key: keyof TasteRadarData; label: string }[] = [
-  { key: 'spiceTolerance', label: '辣度接受' },
-  { key: 'tastePreference', label: '口味偏好' },
-  { key: 'spendingLevel', label: '消费水平' },
-  { key: 'socialActivity', label: '社交活跃' },
-  { key: 'exploreWillingness', label: '探店意愿' },
-  { key: 'timeRegularity', label: '时间规律' },
+  { key: 'spiceTolerance', label: 'Spice' },
+  { key: 'tastePreference', label: 'Flavor' },
+  { key: 'spendingLevel', label: 'Budget' },
+  { key: 'socialActivity', label: 'Social' },
+  { key: 'exploreWillingness', label: 'Explorer' },
+  { key: 'timeRegularity', label: 'Schedule' },
 ]
 
 export function getTasteValues(data: TasteRadarData): number[] {
   return TASTE_DIMENSIONS.map((d) => data[d.key])
 }
 
-/** 根据雷达图维度动态生成 AI 总结 */
 export function generateTasteSummary(data: TasteRadarData): string {
   const traits: string[] = []
 
-  if (data.spiceTolerance > 70) {
-    traits.push('川湘菜爱好者')
-  } else if (data.spiceTolerance < 35) {
-    traits.push('清淡口味偏好者')
-  }
+  if (data.spiceTolerance > 70) traits.push('a spice lover')
+  else if (data.spiceTolerance < 35) traits.push('into milder flavors')
 
-  if (data.tastePreference > 70) {
-    traits.push('味蕾冒险家')
-  } else if (data.tastePreference < 40) {
-    traits.push('经典口味坚守派')
-  }
+  if (data.tastePreference > 70) traits.push('an adventurous eater')
+  else if (data.tastePreference < 40) traits.push('a classics person')
 
-  if (data.spendingLevel > 70) {
-    traits.push('品质生活派')
-  } else if (data.spendingLevel < 40) {
-    traits.push('性价比达人')
-  } else {
-    traits.push('灵活消费型')
-  }
+  if (data.spendingLevel > 70) traits.push('quality-first')
+  else if (data.spendingLevel < 40) traits.push('budget-savvy')
+  else traits.push('flexible on spend')
 
-  if (data.socialActivity > 80) {
-    traits.push('探索型食客')
-  } else if (data.socialActivity < 45) {
-    traits.push('小圈社交型')
-  }
+  if (data.socialActivity > 80) traits.push('a social foodie')
+  else if (data.socialActivity < 45) traits.push('small-circle vibes')
 
-  if (data.exploreWillingness > 75) {
-    traits.push('探店达人')
-  } else if (data.exploreWillingness < 40) {
-    traits.push('固定路线型')
-  }
+  if (data.exploreWillingness > 75) traits.push('always down to try new spots')
+  else if (data.exploreWillingness < 40) traits.push('creature of habit')
 
-  if (data.timeRegularity > 70) {
-    traits.push('作息规律党')
-  } else if (data.timeRegularity < 40) {
-    traits.push('随心型食客')
-  }
+  if (data.timeRegularity > 70) traits.push('loves a steady dinner routine')
+  else if (data.timeRegularity < 40) traits.push('spontaneous planner')
 
-  const uniqueTraits = [...new Set(traits)]
-  const traitText =
-    uniqueTraits.length > 0 ? uniqueTraits.join('、') : '均衡型美食玩家'
+  const traitText = traits.length > 0 ? traits.slice(0, 3).join(', ') : 'well-rounded'
 
-  let habit = '用餐习惯比较均衡'
+  let habit = 'You keep meals pretty balanced.'
   if (data.socialActivity > 75 && data.exploreWillingness > 70) {
-    habit = '周末更爱组局探新店，社交能量满满'
+    habit = 'Weekends are for group hangs and new restaurants.'
   } else if (data.timeRegularity > 65) {
-    habit = '倾向于固定时段约饭，节奏稳定靠谱'
+    habit = 'You like reliable meal times — easy to plan around.'
   } else if (data.spiceTolerance > 65 && data.tastePreference > 60) {
-    habit = '偏爱有记忆点的风味，愿意尝试地方特色菜'
+    habit = 'You chase bold flavors and regional spots.'
   } else if (data.spendingLevel < 45) {
-    habit = '会优先找好吃不贵的宝藏小店'
+    habit = 'Hidden gems that taste great without breaking the bank? Yes please.'
   }
 
-  let matchHint = '适合匹配同样愿意聊天的饭搭子'
+  let matchHint = 'Best matched with buddies who actually want to chat over food.'
   if (data.socialActivity > 80) {
-    matchHint = '适合匹配爱聊天、爱分享的活跃型搭子'
+    matchHint = 'Great fit for outgoing, chatty dining partners.'
   } else if (data.exploreWillingness > 75) {
-    matchHint = '适合匹配一起打卡新店的探店型搭子'
+    matchHint = 'Pair up with fellow food explorers who love new openings.'
   } else if (data.spiceTolerance > 70) {
-    matchHint = '适合匹配能吃辣的川湘菜系搭子'
+    matchHint = 'Find buddies who can handle the heat with you.'
   }
 
-  return `你是典型的${traitText}，${habit}。${matchHint}。`
+  return `You're ${traitText}. ${habit} ${matchHint}`
 }

@@ -3,20 +3,19 @@ import {
   mapParsedToForm,
   parseActivityFallback,
   parseActivityResponse,
-  type ParsedActivityForm,
 } from '@/lib/parse-activity'
 
-const SYSTEM_PROMPT = `用户用自然语言描述了一个搭子活动，
-请提取以下信息并以JSON格式返回：
+const SYSTEM_PROMPT = `The user described a buddy hangout in natural language.
+Extract the following and return JSON only:
 {
-  activityType: 吃饭/喝酒/咖啡/看展/KTV/其他,
-  timePreference: 今天/明天/本周末,
-  location: 提取的城市或区域,
-  budget: 低/中/高,
-  vibeTag: 从[随性聊天型,深度交流型,只吃饭不尬聊型,探店打卡型]选一个,
-  title: 用20字以内重新提炼活动标题
+  activityType: Dining/Drinks/Coffee/Art/KTV/Other,
+  timePreference: Today/Tomorrow/This weekend,
+  location: city or neighborhood,
+  budget: Low/Mid/High,
+  vibeTag: pick one from [Casual chat, Deep convo, Low-key meal, Foodie crawl],
+  title: a catchy title under 40 characters
 }
-只输出JSON，不输出其他内容`
+Output JSON only, no other text.`
 
 export async function POST(request: Request) {
   const apiKey = process.env.REACT_APP_DEEP_SEEK_KEY
@@ -36,7 +35,7 @@ export async function POST(request: Request) {
   const fallback = parseActivityFallback(description)
   const fallbackMapped = mapParsedToForm(fallback)
 
-  if (!apiKey || apiKey === '你的key') {
+  if (!apiKey || apiKey === 'your-key-here') {
     return NextResponse.json({ parsed: fallback, mapped: fallbackMapped, fromFallback: true })
   }
 

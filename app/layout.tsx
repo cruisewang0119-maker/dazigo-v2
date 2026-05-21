@@ -17,8 +17,8 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: '搭子GO - 海外华人社交平台',
-  description: '找搭子，一起吃喝玩乐！海外华人专属社交平台',
+  title: 'BuddyGO — Find your crew',
+  description: 'Find buddies for food, drinks, and hangouts in your city.',
 }
 
 export const viewport: Viewport = {
@@ -35,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="zh-CN" className="bg-background">
+    <html lang="en" className="bg-background">
       <body className={`${geist.variable} ${playfair.variable} font-sans antialiased min-h-screen bg-background lg:flex lg:items-center lg:justify-center`}>
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}

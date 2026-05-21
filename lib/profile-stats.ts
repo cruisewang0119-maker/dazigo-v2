@@ -1,21 +1,33 @@
 import { mockActivities, type Activity } from '@/lib/mock-data'
 
 export const CURRENT_USER = {
-  name: '小林',
-  displayName: '小林同学',
-  city: '伦敦',
-  role: '留学生',
-  tags: ['川菜控', '科技圈', '电影迷', '周末活跃', '深度聊天'],
+  name: 'Lin',
+  displayName: 'Lin',
+  city: 'London',
+  role: 'Grad student',
+  tags: ['Sichuan food', 'Tech', 'Film buff', 'Weekend plans', 'Deep talk'],
 }
 
-const TAG_KEYWORDS = ['辣', '火锅', '川', '云南', '科技', '电影', '探店', '咖啡', 'Deep', '艺术', '港']
+const TAG_KEYWORDS = [
+  'spicy',
+  'hot pot',
+  'sichuan',
+  'yunnan',
+  'tech',
+  'film',
+  'food crawl',
+  'coffee',
+  'deep',
+  'art',
+  'cantonese',
+]
 
 function activityMatchesUser(activity: Activity) {
   if (activity.city === CURRENT_USER.city) return true
   const blob = [activity.title, activity.category, ...activity.tasteTags, ...activity.interestTags].join(
     ' '
   )
-  return TAG_KEYWORDS.some((kw) => blob.includes(kw))
+  return TAG_KEYWORDS.some((kw) => blob.toLowerCase().includes(kw))
 }
 
 function estimateTotalSpots(activity: Activity) {
@@ -43,10 +55,10 @@ export function computeProfileStats() {
 
   const recentActivities = relatedActivities.slice(0, 3).map((a) => ({
     id: a.id,
-    title: a.title.length > 18 ? `${a.title.slice(0, 18)}…` : a.title,
+    title: a.title.length > 28 ? `${a.title.slice(0, 28)}…` : a.title,
     time: a.time,
     partnerName: a.user.name,
-    status: '完成' as const,
+    status: 'Done' as const,
   }))
 
   return {
